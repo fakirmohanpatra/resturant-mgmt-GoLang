@@ -1,20 +1,19 @@
 package main
 
 import (
-	"os"
-	"github.com/gin-gonic/gin"
 	"golang-resturant-mgmt/database"
-	"golang-resturant-mgmt/models"
-	"golang-resturant-mgmt/routes"
 	"golang-resturant-mgmt/middlewares"
-	"go.mongodb.org/mongo-driver/mongo"
+	"golang-resturant-mgmt/routes"
+	"os"
 
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var foodCollection *mongo.Collection = database.OpenCollection(database.Client, "food")
 
 func main() {
-	port:= os.Getenv("PORT")
+	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
@@ -22,7 +21,7 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	routes.useRoutes(router)
+	routes.UserRoutes(router)
 	router.Use(middlewares.Authentication())
 
 	routes.FoodRoutes(router)
